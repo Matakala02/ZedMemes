@@ -1,0 +1,44 @@
+/* Optional: Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e0; /* Tailwind gray-400 */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a0aec0; /* Tailwind gray-500 */
+}
+
+/* Fade modal transitions (optional) */
+.modal {
+  transition: opacity 0.3s ease;
+}
+
+/* Hidden utility for modals */
+.hidden {
+  display: none;
+}
+
+/* Optional background blur for modals */
+.bg-blur {
+  backdrop-filter: blur(4px);
+}
+
+/* Button hover effects */
+button:hover {
+  opacity: 0.9;
+  transition: 0.2s;
+}
+
+/* Optional card shadow */
+.meme-card {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease;
+}
+
+.meme-card:hover {
+  transform: translateY(-2px);
+}
