@@ -27,9 +27,9 @@ CREATE TABLE
     reaction_id INT AUTO_INCREMENT PRIMARY KEY,
     meme_id INT NOT NULL,
     user_id INT NOT NULL,
-    type ENUM ('like', 'upvote') NOT NULL,
+    reaction_type ENUM ('like', 'upvote') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (meme_id, user_id, type),
+    UNIQUE (meme_id, user_id, reaction_type),
     FOREIGN KEY (meme_id) REFERENCES memes (meme_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE
   );
