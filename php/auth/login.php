@@ -6,32 +6,38 @@ require_once "../../db.php";
 
 header('Content-Type: application/json');
 
-$email = trim($_POST['email']);
-$password = $_POST['password'];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = trim($_POST['email'] ?? "");
+    $password = $_POST['password'] ?? "";
 
-// Validate input
-if (empty($email) || empty($password)) {
-    echo json_encode(["success" => false, "message" => "All fields are required."]);
-    exit;
-}
-
-// Check if user exists
-$sql = "SELECT * FROM users WHERE email = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result && $result->num_rows === 1) {
-    $user = $result->fetch_assoc();
-
-    if (password_verify($password, $user['password'])) {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['username'] = $user['username'];
-        echo json_encode(["success" => true]);
-    } else {
-        echo json_encode(["success" => false, "message" => "Incorrect password."]);
+    // Making sure inputs are not empty.
+    if (empty($email)) {
+        echo json_encode(["success" => false, "message" => "Email is required."]);
+        exit;
     }
-} else {
-    echo json_encode(["success" => false, "message" => "No user found with that email."]);
+
+    if (empty($password)) {
+        echo json_encode(["success" => false, "message" => "Password is required."]);
+        exit;
+    }
+
+    // Check if user exists
+    $get_user_by_email_query = "SELECT * FROM users WHERE email = ?";
+    $user_stmt = $conn->prepare($get_user_by_email_query);
+    $user_stmt->bind_param("s", $email);
+    $user_stmt->execute();
+    $user_results = $user_stmt->get_result();
+
+    if ($user_results && $user_results->num_rows === 1) {
+        $user = $user_results->fetch_assoc();
+        if (password_verify($password, $user['password_hash'])) {
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['username'] = $user['username'];
+            echo json_encode(["success" => true, "user" => $user["username"]]);
+        } else {
+            echo json_encode(["success" => false, "message" => "Incorrect password."]);
+        }
+    } else {
+        echo json_encode(["success" => false, "message" => "No user found with that email."]);
+    }
 }
