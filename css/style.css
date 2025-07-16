@@ -33,12 +33,27 @@ button:hover {
   transition: 0.2s;
 }
 
-/* Optional card shadow */
+/* Optional card shadow
 .meme-card {
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease;
 }
 
 .meme-card:hover {
   transform: translateY(-2px);
+} */
+
+@keyframes slide-in {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
 }
